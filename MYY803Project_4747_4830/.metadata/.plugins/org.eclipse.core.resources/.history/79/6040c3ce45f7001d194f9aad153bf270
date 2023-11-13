@@ -1,0 +1,181 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import project2023.Diploma_Projects_Management_App.dao.ProfessorDAO;
+import project2023.Diploma_Projects_Management_App.model.Professor;
+
+@DataJpaTest
+@Sql("/data.sql")
+public class ProfessorDAOTest {
+
+    @Autowired
+    private ProfessorDAO professorDAO;
+
+    @Test
+    void testFindById() {
+        Professor professor = professorDAO.findById(1);
+        Assertions.assertNotNull(professor);
+        Assertions.assertEquals(1, professor.getId());
+    }
+
+}
+/////////////////////////////////////////////////////////////////
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import project2023.Diploma_Projects_Management_App.dao.StudentDAO;
+import project2023.Diploma_Projects_Management_App.model.Student;
+
+@DataJpaTest
+@Sql("/data.sql")
+public class StudentDAOTest {
+
+    @Autowired
+    private StudentDAO studentDAO;
+
+    @Test
+    void testFindById() {
+        Student student = studentDAO.findById(1);
+        Assertions.assertNotNull(student);
+        Assertions.assertEquals(1, student.getId());
+    }
+
+    @Test
+    void testFindByIdAndAssignedFalse() {
+        Student student = studentDAO.findByIdAndAssignedFalse(1);
+        Assertions.assertNotNull(student);
+        Assertions.assertEquals(1, student.getId());
+        Assertions.assertFalse(student.isAssigned());
+    }
+
+   
+}
+///////////////////////////////////////////////////////////////////////////
+
+
+
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import project2023.Diploma_Projects_Management_App.dao.SubjectDAO;
+import project2023.Diploma_Projects_Management_App.model.Subject;
+
+@DataJpaTest
+@Sql("/data.sql")
+public class SubjectDAOTest {
+
+    @Autowired
+    private SubjectDAO subjectDAO;
+
+    @Test
+    void testFindById() {
+        Subject subject = subjectDAO.findById(1);
+        Assertions.assertNotNull(subject);
+        Assertions.assertEquals(1, subject.getId());
+    }
+
+    @Test
+    void testFindByAssignedFalse() {
+        List<Subject> subjects = subjectDAO.findByAssignedFalse();
+        Assertions.assertFalse(subjects.isEmpty());
+        for (Subject subject : subjects) {
+            Assertions.assertFalse(subject.isAssigned());
+        }
+    }
+
+    @Test
+    void testFindBySupervisorAndAssignedFalse() {
+        List<Subject> subjects = subjectDAO.findBySupervisorAndAssignedFalse(1);
+        Assertions.assertFalse(subjects.isEmpty());
+        for (Subject subject : subjects) {
+            Assertions.assertFalse(subject.isAssigned());
+            Assertions.assertEquals(1, subject.getSupervisor().getId());
+        }
+    }
+
+   
+}
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import project2023.Diploma_Projects_Management_App.dao.ThesisDAO;
+import project2023.Diploma_Projects_Management_App.model.Thesis;
+
+@DataJpaTest
+@Sql("/data.sql")
+public class ThesisDAOTest {
+
+    @Autowired
+    private ThesisDAO thesisDAO;
+
+    @Test
+    void testFindById() {
+        Thesis thesis = thesisDAO.findById(1);
+        Assertions.assertNotNull(thesis);
+        Assertions.assertEquals(1, thesis.getId());
+    }
+
+    @Test
+    void testFindByStudentid() {
+        Thesis thesis = thesisDAO.findByStudentid(1);
+        Assertions.assertNotNull(thesis);
+        Assertions.assertEquals(1, thesis.getStudent().getId());
+    }
+
+
+}
+///////////////////////////////////
+
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import project2023.Diploma_Projects_Management_App.dao.UserDAO;
+import project2023.Diploma_Projects_Management_App.model.User;
+
+@DataJpaTest
+@Sql("/data.sql")
+public class UserDAOTest {
+
+    @Autowired
+    private UserDAO userDAO;
+
+    @Test
+    void testFindById() {
+        User user = userDAO.findById(1);
+        Assertions.assertNotNull(user);
+        Assertions.assertEquals(1, user.getId());
+    }
+
+    @Test
+    void testFindByUsername() {
+        String username = "john.doe";
+        User user = userDAO.findByUsername(username).orElse(null);
+        Assertions.assertNotNull(user);
+        Assertions.assertEquals(username, user.getUsername());
+    }
+
+
+}
+

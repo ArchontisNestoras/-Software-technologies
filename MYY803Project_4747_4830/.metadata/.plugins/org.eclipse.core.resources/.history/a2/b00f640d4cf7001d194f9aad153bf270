@@ -1,0 +1,155 @@
+package project2023.Diploma_Projects_Management_App.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import project2023.Diploma_Projects_Management_App.model.Application;
+import project2023.Diploma_Projects_Management_App.model.Professor;
+import project2023.Diploma_Projects_Management_App.model.Student;
+import project2023.Diploma_Projects_Management_App.model.Subject;
+import project2023.Diploma_Projects_Management_App.model.Thesis;
+import project2023.Diploma_Projects_Management_App.model.User;
+import project2023.Diploma_Projects_Management_App.service.ApplicationService;
+import project2023.Diploma_Projects_Management_App.service.ProfessorService;
+import project2023.Diploma_Projects_Management_App.service.StudentService;
+import project2023.Diploma_Projects_Management_App.service.SubjectService;
+import project2023.Diploma_Projects_Management_App.service.ThesisService;
+
+@Controller
+public class StudentController {
+	
+	@Autowired
+	private StudentService studentService;
+	@Autowired
+	private SubjectService subjectService;
+	@Autowired
+	private ProfessorService professorService;
+	@Autowired
+	private ApplicationService applicationService;
+	@Autowired
+	private ThesisService thesisService;
+	
+	private int counter = 0;
+	private Boolean flag;
+	private HashMap<Integer, List<String>> subjectList = new HashMap<Integer, List<String>>();
+	private int flagForSameFullname = 0;
+	private String studentExistFullname;
+	
+	@RequestMapping("/student/dashboard")
+    public String getStudentHome(@AuthenticationPrincipal User user, Model theModel){	
+        return "student/dashboard";
+    }
+	
+	@RequestMapping("/student/dashboard/info")
+	public String infoStudent(@AuthenticationPrincipal User user, Model theModel) {
+		Student theStudent = studentService.findById(user.getId());
+		theModel.addAttribute("student", theStudent);
+		
+		Thesis theThesis = thesisService.findByStudentid(user.getId());
+		theModel.addAttribute("thesis", theThesis);
+		
+		theModel.addAttribute("studentExistFullname", studentExistFullname);
+		theModel.addAttribute("flagForSameFullname", flagForSameFullname);
+		
+		return "student/pr_information";
+	}
+	
+	@RequestMapping("/student/dashboard/info/save")
+	public String save(@ModelAttribute("student") Student theStudent, Model theModel) {
+		
+		//for unique FullNames
+		List<Student> allStudents = studentService.findAll();
+		for(int i=0; i<allStudents.size(); i++) {
+			if(allStudents.get(i).getFullname() != null) {
+				if(allStudents.get(i).getFullname().equals(theStudent.getFullname()) && allStudents.get(i).getId()!=theStudent.getId()) {
+					flagForSameFullname = 1;
+					studentExistFullname = theStudent.getFullname();
+					theModel.addAttribute("studentExistFullname", studentExistFullname);
+					theModel.addAttribute("flagForSameFullname", flagForSameFullname);
+					return "student/pr_information";
+				}else {
+					flagForSameFullname = 0;
+				}
+			}
+		}
+		
+		if(flagForSameFullname == 0) {
+			// save the employee
+			studentService.saveStudent(theStudent);
+		}
+		
+		// use a redirect to prevent duplicate submissions
+		return "redirect:/student/dashboard";
+	}
+	
+	@RequestMapping("/student/dashboard/allSubjects")
+	public String listSubjects(@AuthenticationPrincipal User user, Model theModel) {
+		
+		// get subjects from db
+		List<Subject> theSubjects = subjectService.findNotAssignedSubjects();
+		
+		// add to the spring model
+		theModel.addAttribute("subjects", theSubjects);
+		
+		Student theStudent = studentService.findById(user.getId());
+		theModel.addAttribute("student", theStudent);
+		
+		List<Application> theApplications = applicationService.findByStudentid(user.getId());
+		theModel.addAttribute("applications", theApplications);
+		
+		return "student/list-subjects";
+	}
+	
+	@RequestMapping("/student/dashboard/more")
+	public String moreForSubject(@AuthenticationPrincipal User user, @RequestParam("subjectId") int theId, Model theModel) {
+		
+		Subject mySubject = subjectService.findById(theId);
+		
+		Professor subjectProfessor = professorService.findById(mySubject.getSupervisor());
+		
+		flag = true;
+		if(this.counter != 0) {
+			List<Application> listApplication = applicationService.findAll();
+			for(int i=0; i<listApplication.size(); i++) {
+				if(listApplication.get(i).getSubjects_id() == theId && listApplication.get(i).getStudent_id() == user.getId()) {
+					flag = false;
+				}
+			}
+		}
+		this.counter++;
+		
+		Student theStudent = studentService.findById(user.getId());
+		
+		// add to the spring model
+		theModel.addAttribute("specificSubject", mySubject);
+		theModel.addAttribute("specificSubjectProfessor", subjectProfessor.getFullname());
+		theModel.addAttribute("showButton", flag);
+		theModel.addAttribute("student", theStudent);
+		
+		return "student/subjectInfo";
+	}
+	
+	@RequestMapping("/student/dashboard/apply")
+	public String addApplication(@AuthenticationPrincipal User user, @RequestParam("subjectId") int theId, Model theModel) {
+		
+		/*List<String> values = new ArrayList<String>();
+		subjectList.put(user.getId(), values);
+		values.add(subjectService.findById(theId).getTitle());*/
+		
+		Application theApplication = new Application(theId, user.getId());
+		
+		applicationService.save(theApplication);
+		
+		return "redirect:/student/dashboard/allSubjects";
+	}
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>Set Grade</title>
+
+</head>
+
+<body>
+
+<div class="container">
+
+	<h3>Set Grade</h3>
+
+	<hr>
+	
+	<form action="#" th:action="@{/professor/dashboard/assignedDiplomaList/grade/save}"
+						 th:object="${myThesis}" method="POST">
+		
+		<!-- Add hidden form field to handle update -->
+		<input type="hidden" th:field="*{id}" />
+		
+		<input type="hidden" th:field="*{subjectsid}" />
+		
+		<input type="hidden" th:field="*{studentid}" />
+		
+		<input type="text" th:field="*{implementationgrade}"
+				class="form-control mb-4 col-4" placeholder="ImplementationGrade">
+	
+		<input type="text" th:field="*{reportgrade}"
+				class="form-control mb-4 col-4" placeholder="ReportGrade">
+	
+		<input type="text" th:field="*{presentationgrade}"
+				class="form-control mb-4 col-4" placeholder="PresentationGrade">
+	
+		<input type="hidden" th:field="*{grade}" />
+		
+		<button type="submit" class="btn btn-info col-2">Submit</button>
+	</form>
+	
+	<hr>
+	<a th:href="@{/professor/dashboard/assignedDiplomaList}">Back To Assigned Diploma List</a>
+	
+</div>
+	
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestStudentController" project="Diploma_Projects_Management_App" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="project2023.Diploma_Projects_Management_App.TestStudentController" time="1.059" displayname="TestStudentController" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.TestStudentController]">
+    <testcase name="shouldShowAllSubjects" classname="project2023.Diploma_Projects_Management_App.TestStudentController" time="0.982" displayname="shouldShowAllSubjects()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.TestStudentController]/[method:shouldShowAllSubjects()]"/>
+    <testcase name="shouldAddApplication" classname="project2023.Diploma_Projects_Management_App.TestStudentController" time="0.051" displayname="shouldAddApplication()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.TestStudentController]/[method:shouldAddApplication()]"/>
+    <testcase name="shouldShowMoreForSubject" classname="project2023.Diploma_Projects_Management_App.TestStudentController" time="0.026" displayname="shouldShowMoreForSubject()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.TestStudentController]/[method:shouldShowMoreForSubject()]"/>
+  </testsuite>
+</testrun>

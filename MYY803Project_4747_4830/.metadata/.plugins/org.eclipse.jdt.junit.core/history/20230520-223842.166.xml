@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ProfessorDAOTest" project="Diploma_Projects_Management_App" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="project2023.Diploma_Projects_Management_App.ProfessorDAOTest" time="0.208" displayname="ProfessorDAOTest" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ProfessorDAOTest]">
+    <testcase name="testFindById" classname="project2023.Diploma_Projects_Management_App.ProfessorDAOTest" time="0.208" displayname="testFindById()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ProfessorDAOTest]/[method:testFindById()]"/>
+  </testsuite>
+</testrun>

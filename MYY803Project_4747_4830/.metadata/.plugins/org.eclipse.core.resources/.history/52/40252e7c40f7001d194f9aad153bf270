@@ -1,0 +1,235 @@
+/*
+package project2023.Diploma_Projects_Management_App;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import project2023.Diploma_Projects_Management_App.controller.StudentController;
+import project2023.Diploma_Projects_Management_App.model.Application;
+import project2023.Diploma_Projects_Management_App.model.Professor;
+import project2023.Diploma_Projects_Management_App.model.Student;
+import project2023.Diploma_Projects_Management_App.model.Subject;
+import project2023.Diploma_Projects_Management_App.service.ApplicationService;
+import project2023.Diploma_Projects_Management_App.service.ProfessorService;
+import project2023.Diploma_Projects_Management_App.service.StudentService;
+import project2023.Diploma_Projects_Management_App.service.SubjectService;
+import project2023.Diploma_Projects_Management_App.service.ThesisService;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.when;
+
+// Other necessary imports
+
+@ExtendWith(MockitoExtension.class)
+class TestStudentController {
+
+	@Mock
+    private StudentService studentService;
+	@Mock
+    private SubjectService subjectService;
+	@Mock
+    private ProfessorService professorService;
+	@Mock
+    private ApplicationService applicationService;
+	@Mock
+    private ThesisService thesisService;
+
+    @InjectMocks
+    private StudentController studentController;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
+    }
+
+
+    @Test
+    void shouldShowAllSubjects() throws Exception {
+        // Given
+        List<Subject> subjects = new ArrayList<>();
+        subjects.add(new Subject());
+        subjects.add(new Subject());
+
+        // When
+        when(subjectService.findNotAssignedSubjects()).thenReturn(subjects);
+
+        // Then
+        mockMvc.perform(get("/student/dashboard/allSubjects"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("student/list-subjects"));
+    }
+
+    @Test
+    void shouldShowMoreForSubject() throws Exception {
+        // Given
+        Subject subject = new Subject();
+        int subjectId = 1;
+        when(subjectService.findById(subjectId)).thenReturn(subject);
+
+        Professor professor = new Professor();
+        when(professorService.findById(subject.getSupervisor())).thenReturn(professor);
+
+        // When & Then
+        mockMvc.perform(get("/student/dashboard/more").param("subjectId", "1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("student/subjectInfo"));
+    }
+
+    @Test
+    void shouldAddApplication() throws Exception {
+        // Given
+        int subjectId = 1;
+        Application application = new Application(subjectId, 1);
+
+        // Perform the request
+        mockMvc.perform(get("/student/dashboard/apply").param("subjectId", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/student/dashboard/allSubjects"));
+
+        // Then
+        verify(applicationService, times(1)).save(any(Application.class));
+    }
+
+
+    
+}
+*/
+package project2023.Diploma_Projects_Management_App;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.ui.Model;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import project2023.Diploma_Projects_Management_App.model.*;
+import project2023.Diploma_Projects_Management_App.service.*;
+
+import java.util.Collections;
+
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class StudentControllerTest {
+
+    @Mock
+    StudentService studentService;
+    @Mock
+    SubjectService subjectService;
+    @Mock
+    ProfessorService professorService;
+    @Mock
+    ApplicationService applicationService;
+    @Mock
+    ThesisService thesisService;
+    @Mock
+    Model model;
+    @Mock
+    Authentication auth;
+    @Mock
+    User user;
+    @Mock
+    Student student;
+    @Mock
+    Subject subject;
+    @Mock
+    Thesis thesis;
+    @Mock
+    Professor professor;
+    @Mock
+    Application application;
+
+    @InjectMocks
+    StudentController controller;
+
+    @BeforeEach
+    void setUp() {
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        when(auth.getPrincipal()).thenReturn(user);
+    }
+
+    @Test
+    void testGetStudentHome() {
+        when(user.getId()).thenReturn(1);
+        controller.getStudentHome(user, model);
+        verify(user).getId();
+    }
+
+    @Test
+    void testInfoStudent() {
+        when(user.getId()).thenReturn(1);
+        when(studentService.findById(anyInt())).thenReturn(student);
+        when(thesisService.findByStudentid(anyInt())).thenReturn(thesis);
+        controller.infoStudent(user, model);
+        verify(studentService).findById(anyInt());
+        verify(thesisService).findByStudentid(anyInt());
+    }
+
+    @Test
+    void testSave() {
+        when(user.getId()).thenReturn(1);
+        when(studentService.findAll()).thenReturn(Collections.singletonList(student));
+        controller.save(student, model);
+        verify(studentService).saveStudent(student);
+    }
+
+    @Test
+    void testListSubjects() {
+        when(user.getId()).thenReturn(1);
+        when(subjectService.findNotAssignedSubjects()).thenReturn(Collections.singletonList(subject));
+        when(studentService.findById(anyInt())).thenReturn(student);
+        when(applicationService.findByStudentid(anyInt())).thenReturn(Collections.singletonList(application));
+        controller.listSubjects(user, model);
+        verify(subjectService).findNotAssignedSubjects();
+        verify(studentService).findById(anyInt());
+        verify(applicationService).findByStudentid(anyInt());
+    }
+
+    @Test
+    void testMoreForSubject() {
+        when(user.getId()).thenReturn(1);
+        when(subjectService.findById(anyInt())).thenReturn(subject);
+        when(professorService.findById(anyInt())).thenReturn(professor);
+        when(applicationService.findAll()).thenReturn(Collections.singletonList(application));
+        when(studentService.findById(anyInt())).thenReturn(student);
+        controller.moreForSubject(user, 1, model);
+        verify(subjectService).findById(anyInt());
+        verify(professorService).findById(anyInt());
+        verify(applicationService).findAll();
+        verify(studentService).findById(anyInt());
+    }
+
+    @Test
+    void testAddApplication() {
+        when(user.getId()).thenReturn(1);
+        Application application = new Application(1, 1);
+        controller.addApplication(user, 1, model);
+        verify(applicationService).save(application);
+    }
+}
+
+

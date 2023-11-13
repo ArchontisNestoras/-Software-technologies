@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	
+	<title>Student info</title>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2>Write Your Personal Informations</h2>
+  
+  <form action="#" th:action="@{/student/dashboard/info/save}"
+						 th:object="${student}" method="POST">
+		
+		<!-- Add hidden form field to handle update -->
+		<input type="hidden" th:field="*{id}" />
+		
+		<input th:if="${flagForSameFullname == 0}" type="text" th:field="*{fullname}"
+				class="form-control mb-4 col-4" placeholder="FullName">
+		
+		<input th:if="${flagForSameFullname == 1}" type="text" th:field="*{fullname}"
+				class="form-control col-4 is-invalid" placeholder="FullName" id="validationServer03" aria-describedby="validationServer03Feedback" required>
+	    <div th:if="${flagForSameFullname == 1}" id="validationServer03Feedback" class="invalid-feedback">
+	      <p th:text="'This FullName: `' + ${studentExistFullname} + '` already exists!'" class="h6"/>
+		  For better results use unique names, to be more clear in the proffessor assignment list
+	    </div>
+	    <br th:if="${flagForSameFullname == 1}">
+		
+		<input type="text" th:field="*{yearsofstudies}"
+				class="form-control mb-4 col-4" placeholder="YearsOfStudies">
+	
+		<input type="text" th:field="*{currentaveragegrade}"
+				class="form-control mb-4 col-4" placeholder="CurrentAverageGrade">
+		
+		<input type="text" th:field="*{numberofremainingcoursesforgraduation}"
+				class="form-control mb-4 col-4" placeholder="NumOfRemainingCoursesForGraduation">
+			
+		<input type="hidden" th:field="*{assigned}" />
+		
+		<button type="submit" class="btn btn-info col-2">Save</button>
+	</form>
+	
+	<hr>
+		<div th:if="${thesis != null}">
+			<p th:if="${thesis.grade == null}" th:text="'Grade: -'" class="h5"/>
+			<p th:unless="${thesis.grade == null}" th:text="'Grade: ' + ${thesis.grade}" class="h5"/>
+			<hr>
+		</div>
+	
+	<a th:href="@{/student/dashboard}">Back to Dashboard</a>
+  
+</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<!-- reference CSS file -->
+	<link rel="stylesheet"
+		  th:href="@{/css/demo.css}" />
+
+	<title>My Application Directory</title>
+	
+	<script>
+		function showTextField() {
+			const dropdown = document.getElementById('dropdownMenu');
+			const selectedOption = dropdown.options[dropdown.selectedIndex].value;
+			const textField = document.getElementById('textField');
+
+			if (selectedOption === 'LIMIT') {
+				textField.style.display = 'block';
+			} else {
+				textField.style.display = 'none';
+			}
+		}
+
+	</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+	<h3>My Applications Directory</h3>
+	
+	<div th:if="${message == 0}" class="success">
+	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+	  <strong th:text="'SUCCESS! Assigned the student: ' + ${myStudent.fullname}"/>
+	</div>
+	<div th:if="${message == 1}" class="warning">
+	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+	  <strong>WARNING</strong>
+	  No Student completed the requiremenets!
+	</div>
+	
+	<hr>
+	
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>Title</th>
+				<th>StudentName</th>
+				<th></th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			
+			<tr th:each="map: ${specificMap}">
+				<div th:each="mapEntry: ${map}">
+					<td th:text="${mapEntry.key.title}" />
+					
+					<div th:each="tempMapForHtml: ${mapForHtml}">
+						<td th:if="${mapEntry.key.title == tempMapForHtml.key}"
+						th:text="${tempMapForHtml.value}" />
+					</div>
+			     
+				     <td>
+				     	<form th:action="@{/professor/dashboard/applicationList/assign(subjectId=${mapEntry.key.id})}" method="post">
+							<label for="dropdownMenu">Select an option:</label>
+							<select id="dropdownMenu" name="dropdownMenu" onchange="showTextField()">
+								<option value="RANDOM_CHOICE">RANDOM_CHOICE</option>
+								<option value="BEST_AVG_GRADE">BEST_AVG_GRADE</option>
+								<option value="FEWEST_COURSES">FEWEST_COURSES</option>
+								<option value="LIMIT">LIMIT</option>
+							</select>
+							
+							<div id="textField" style="display: none;">
+								<hr>
+								<label for="gradeLimit">Average courses grade greater than:</label>
+								<input type="text" id="gradeLimit" name="gradeLimit" />
+								<hr>
+								<label for="courseLimit">Number of remaining courses for graduation less than:</label>
+								<input type="number" id="courseLimit" name="courseLimit" />
+								<hr>
+							</div>
+							
+							<!-- Add "assign" button/link -->
+							<button type="submit" class="btn btn-danger btn-sm"
+							   onclick="if (!(confirm('Are you sure you want to apply this subject?'))) return false">Assign</button>
+						</form>
+					</td>
+				</div>
+			</tr>
+			
+			
+		</tbody>		
+	</table>
+	
+	<hr>
+	<a th:href="@{/professor/dashboard}">Back to Dashboard</a>
+	
+</div>
+	
+</body>
+</html>
+
+
+

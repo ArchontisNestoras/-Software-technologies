@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<!-- reference CSS file -->
+	<link rel="stylesheet"
+		  th:href="@{/css/demo.css}" />
+	
+	<title>Available Subjects Directory</title>
+</head>
+
+<body>
+
+<div class="container">
+
+	<h3>Available Subjects Directory</h3>
+	<hr>
+	<div th:if="${student.assigned == true}" class="warning">
+	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+	  <strong>WARNING</strong>
+	  You have allready assigned to a Subject! You can't Apply to another Subject
+	</div>
+	
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>Title</th>
+				<th>Apply</th>
+				<th>More</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="tempSubject : ${subjects}">
+				<td th:text="${tempSubject.title}" />
+				<td>
+					<div th:each="tempApplication : ${applications}">
+						<input th:if="${tempApplication.getSubjects_id == tempSubject.id}" type="checkbox" disabled="disabled" checked="checked">
+					</div>
+				</td>
+				<td>
+					<!-- Add "more" button/link -->					
+					<a th:href="@{/student/dashboard/more(subjectId=${tempSubject.id})}"
+					   class="btn btn-danger btn-sm">
+						More
+					</a>
+				</td>
+			</tr>
+		</tbody>		
+	</table>
+	
+	<hr>
+	<a th:href="@{/student/dashboard}">Back to Dashboard</a>
+	
+</div>
+	
+</body>
+</html>
+
+
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="Integer"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="true"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="int"/>
+			<item value="float"/>
+			<item value="message"/>
+			<item value="studentServi"/>
+			<item value="student_id"/>
+			<item value="subjects_id"/>
+			<item value="subjectsid"/>
+			<item value="Employee"/>
+			<item value="Student"/>
+			<item value="ad"/>
+			<item value="adm"/>
+			<item value="User"/>
+			<item value="userRepository"/>
+			<item value="security"/>
+			<item value="employee"/>
+		</list>
+		<list key="replacehistory">
+			<item value="Integer"/>
+			<item value="INTEGER"/>
+			<item value="Float"/>
+			<item value="studentid"/>
+			<item value="subjectsid"/>
+			<item value="Subject"/>
+			<item value="user"/>
+			<item value="User"/>
+			<item value="thesis"/>
+			<item value="Thesis"/>
+			<item value="subject"/>
+			<item value="student"/>
+			<item value="Student"/>
+			<item value="professor"/>
+			<item value="Professor"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1583"/>
+		<item key="DIALOG_Y_ORIGIN" value="309"/>
+		<item key="DIALOG_WIDTH" value="336"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>

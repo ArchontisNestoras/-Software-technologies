@@ -1,0 +1,80 @@
+package project2023.Diploma_Projects_Management_App;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import project2023.Diploma_Projects_Management_App.dao.ApplicationDAO;
+import project2023.Diploma_Projects_Management_App.model.Application;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
+public class ApplicationDAOTest {
+
+    @Autowired
+    private ApplicationDAO applicationDAO;
+
+    @BeforeEach
+    public void setUp() {
+        Application app1 = new Application(1, 1);
+        Application app2 = new Application(2, 1);
+        Application app3 = new Application(3, 2);
+
+        // save applications
+        applicationDAO.save(app1);
+        applicationDAO.save(app2);
+        applicationDAO.save(app3);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        // clean up after each test method
+        applicationDAO.deleteAll();
+    }
+
+    @Test
+    public void testFindById() {
+        Application found = applicationDAO.findById(1);
+        assertThat(found).isNotNull();
+        assertThat(found.getStudent_id()).isEqualTo(1);
+    }
+
+    @Test
+    public void testFindBySubjectsid() {
+        List<Application> apps = applicationDAO.findBySubjectsid(1);
+        assertThat(apps).isNotNull();
+        assertThat(apps.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void testFindBySubjectsidIn() {
+        List<Application> apps = applicationDAO.findBySubjectsidIn(Arrays.asList(1, 2));
+        assertThat(apps).isNotNull();
+        assertThat(apps.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void testFindByStudentid() {
+        List<Application> apps = applicationDAO.findByStudentid(1);
+        assertThat(apps).isNotNull();
+        assertThat(apps.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void testDeleteByStudentid() {
+        applicationDAO.deleteByStudentid(1);
+        List<Application> apps = applicationDAO.findByStudentid(1);
+        assertThat(apps).isNotNull();
+        assertThat(apps.size()).isEqualTo(0);
+    }
+}
+

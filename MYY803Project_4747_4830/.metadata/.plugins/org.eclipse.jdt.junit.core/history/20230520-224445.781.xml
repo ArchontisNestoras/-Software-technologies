@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="StudentDAOTest" project="Diploma_Projects_Management_App" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="project2023.Diploma_Projects_Management_App.StudentDAOTest" time="0.351" displayname="StudentDAOTest" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.StudentDAOTest]">
+    <testcase name="testFindById" classname="project2023.Diploma_Projects_Management_App.StudentDAOTest" time="0.225" displayname="testFindById()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.StudentDAOTest]/[method:testFindById()]"/>
+    <testcase name="testFindByIdAndAssignedFalse" classname="project2023.Diploma_Projects_Management_App.StudentDAOTest" time="0.126" displayname="testFindByIdAndAssignedFalse()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.StudentDAOTest]/[method:testFindByIdAndAssignedFalse()]"/>
+  </testsuite>
+</testrun>

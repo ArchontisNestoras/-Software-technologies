@@ -1,0 +1,46 @@
+package project2023.Diploma_Projects_Management_App;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import project2023.Diploma_Projects_Management_App.dao.SubjectDAO;
+import project2023.Diploma_Projects_Management_App.model.Subject;
+
+@DataJpaTest
+@Sql("/data.sql")
+public class SubjectDAOTest {
+
+    @Autowired
+    private SubjectDAO subjectDAO;
+
+    @Test
+    void testFindById() {
+        Subject subject = subjectDAO.findById(1);
+        Assertions.assertNotNull(subject);
+        Assertions.assertEquals(1, subject.getId());
+    }
+
+    @Test
+    void testFindByAssignedFalse() {
+        List<Subject> subjects = subjectDAO.findByAssignedFalse();
+        Assertions.assertFalse(subjects.isEmpty());
+        for (Subject subject : subjects) {
+            Assertions.assertFalse(subject.isAssigned());
+        }
+    }
+
+    @Test
+    void testFindBySupervisorAndAssignedFalse() {
+        List<Subject> subjects = subjectDAO.findBySupervisorAndAssignedFalse(1);
+        Assertions.assertFalse(subjects.isEmpty());
+        for (Subject subject : subjects) {
+            Assertions.assertFalse(subject.isAssigned());
+            Assertions.assertEquals(1, subject.getSupervisor().getId());
+        }
+    }
+
+   
+}

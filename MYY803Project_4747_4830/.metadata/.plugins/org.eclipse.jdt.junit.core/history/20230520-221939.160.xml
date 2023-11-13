@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ApplicationDAOTest" project="Diploma_Projects_Management_App" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="project2023.Diploma_Projects_Management_App.ApplicationDAOTest" time="0.368" displayname="ApplicationDAOTest" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ApplicationDAOTest]">
+    <testcase name="testFindBySubjectsidIn" classname="project2023.Diploma_Projects_Management_App.ApplicationDAOTest" time="0.318" displayname="testFindBySubjectsidIn()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ApplicationDAOTest]/[method:testFindBySubjectsidIn()]"/>
+    <testcase name="testFindByStudentid" classname="project2023.Diploma_Projects_Management_App.ApplicationDAOTest" time="0.007" displayname="testFindByStudentid()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ApplicationDAOTest]/[method:testFindByStudentid()]"/>
+    <testcase name="testDeleteByStudentid" classname="project2023.Diploma_Projects_Management_App.ApplicationDAOTest" time="0.005" displayname="testDeleteByStudentid()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ApplicationDAOTest]/[method:testDeleteByStudentid()]"/>
+    <testcase name="testFindById" classname="project2023.Diploma_Projects_Management_App.ApplicationDAOTest" time="0.029" displayname="testFindById()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ApplicationDAOTest]/[method:testFindById()]"/>
+    <testcase name="testFindBySubjectsid" classname="project2023.Diploma_Projects_Management_App.ApplicationDAOTest" time="0.009" displayname="testFindBySubjectsid()" uniqueid="[engine:junit-jupiter]/[class:project2023.Diploma_Projects_Management_App.ApplicationDAOTest]/[method:testFindBySubjectsid()]"/>
+  </testsuite>
+</testrun>
